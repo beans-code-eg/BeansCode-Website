@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="أداة BeansCode لإدارة المخاطر وحساب حجم الصفقة بدقة للمتداولين على Windows 11.">
+<title> ازاي ادارة المخاطر بيشتغل </title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0A0E14; --bg-soft: #0F141C; --surface: #141A24; --surface-2: #1B2230;
+    --line: #232B3A; --text: #E9EEF5; --text-dim: #8A94A6;
+    --risk: #F2A93B; --safe: #12C9A0; --danger: #E5484D;
+    --mono: 'JetBrains Mono', monospace; --display: 'Cairo', sans-serif; --body: 'IBM Plex Sans Arabic', sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg); color:var(--text); font-family:var(--body); line-height:1.7;}
+  a{color:inherit; text-decoration:none;}
+  .wrap{max-width:1180px; margin:0 auto; padding:0 28px;}
+  .eyebrow{
+    font-family:var(--mono); font-size:12.5px; letter-spacing:.08em; color:var(--text-dim);
+    text-transform:uppercase; display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{content:''; width:16px; height:1px; background:var(--text-dim);}
+
+  nav{position:sticky; top:0; z-index:50; background:rgba(10,14,20,.75); backdrop-filter:blur(10px); border-bottom:1px solid var(--line);}
+  nav .wrap{display:flex; align-items:center; justify-content:space-between; height:68px;}
+  .logo{font-family:var(--display); font-weight:900; font-size:20px; display:flex; align-items:center; gap:10px;}
+  .logo .dot{width:9px;height:9px;border-radius:2px;background:var(--safe); box-shadow:0 0 12px var(--safe);}
+  nav .cta{font-family:var(--mono); font-size:13px; font-weight:600; background:var(--safe); color:#04241C; padding:9px 18px; border-radius:6px;}
+
+  .page-head{padding:64px 0 40px; border-bottom:1px solid var(--line);}
+  .page-head h1{font-family:var(--display); font-weight:900; font-size:clamp(28px,4vw,44px); margin:16px 0 14px;}
+  .page-head p{color:var(--text-dim); font-size:16.5px; max-width:600px;}
+
+  .shot{
+    background:var(--surface); border:1px dashed var(--line); border-radius:14px;
+    aspect-ratio:16/9; display:flex; align-items:center; justify-content:center;
+    color:var(--text-dim); font-family:var(--mono); font-size:13px; text-align:center; gap:8px; flex-direction:column;
+    margin:36px 0;
+  }
+  .shot svg{opacity:.35;}
+
+  .feature-row{
+    display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center;
+    padding:56px 0; border-top:1px solid var(--line);
+  }
+  .feature-row:nth-child(even) .feature-text{order:2;}
+  .feature-row .phase{font-family:var(--mono); font-size:12px; color:var(--risk); letter-spacing:.06em; margin-bottom:12px;}
+  .feature-row h2{font-family:var(--display); font-weight:800; font-size:26px; margin-bottom:14px;}
+  .feature-row p{color:var(--text-dim); font-size:15px;}
+  .feature-shot{
+    background:var(--surface); border:1px dashed var(--line); border-radius:14px;
+    aspect-ratio:4/3; display:flex; align-items:center; justify-content:center;
+    color:var(--text-dim); font-family:var(--mono); font-size:12.5px; flex-direction:column; gap:8px;
+  }
+
+  .cta-band{
+    padding:64px 0; text-align:center; border-top:1px solid var(--line);
+  }
+  .cta-band h2{font-family:var(--display); font-weight:800; font-size:clamp(22px,3vw,30px); margin-bottom:14px;}
+  .cta-band p{color:var(--text-dim); margin-bottom:26px;}
+  .btn{
+    font-family:var(--display); font-weight:700; font-size:15px; padding:14px 26px; border-radius:8px;
+    display:inline-flex; align-items:center; gap:8px; transition:transform .15s ease;
+  }
+  .btn-primary{background:var(--safe); color:#04241C; box-shadow:0 8px 30px -8px rgba(18,201,160,.5);}
+  .btn-primary:hover{transform:translateY(-2px);}
+
+  footer{padding:36px 0; border-top:1px solid var(--line); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px;}
+  footer .logo{font-size:16px;}
+  footer p{color:var(--text-dim); font-size:13px; font-family:var(--mono);}
+
+  @media (max-width:760px){
+    .feature-row{grid-template-columns:1fr;}
+    .feature-row:nth-child(even) .feature-text{order:0;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a href="trial.html" class="cta">جرّب 3 أيام مجاناً</a>
+    <a href="index.html" class="logo"><span class="dot"></span>BeansCode</a>
+    
+  </div>
+</nav>
+
+<div class="wrap page-head">
+  <div class="eyebrow">إزاي بيشتغل</div>
+  <h1>من رأس المال لحجم الصفقة في 3 خطوات</h1>
+  <p> اداة ادارة المخاطر مش مجرد آلة حاسبة — هو الخطوة اللي بتحصل قبل كل صفقة عشان تعرف بالظبط هتخاطر بقد إيه، من غير حساب يدوي أو أكسل منفصل.</p>
+  <div class="feature-shot" style="padding:0;">
+  <img src="Assets/unactivate.png" alt="خانات الإدخال" style="width:100%;height:100%;object-fit:cover;border-radius:14px;">
+</div>
+</div>
+
+<div class="wrap">
+  <div class="feature-row">
+    <div class="feature-text">
+      <div class="phase">الخطوة 1</div>
+      <h2>دخّل بيانات الصفقة</h2>
+      <p>رأس المال المتاح، نسبة المخاطرة اللي مرتاح ليها، سعر الدخول، ونقطة وقف الخسارة. أربع خانات بس، والبرنامج بياخد بالباقي.</p>
+    </div>
+   <div class="feature-shot" style="padding:0;">
+  <img src="Assets/calcsize.png" alt="خانات الإدخال" style="width:100%;height:100%;object-fit:cover;border-radius:14px;">
+</div>
+  </div>
+
+  <div class="feature-row">
+    <div class="feature-text">
+      <div class="phase">الخطوة 2</div>
+      <h2>شوف حجم الصفقة الآمن فوراً</h2>
+      <p>البرنامج بيحسب حجم الصفقة اللي متسق مع نسبة المخاطرة اللي حددتها، عشان لو الصفقة اتحركت ضدك، الخسارة تفضل في الحدود اللي رضيت بيها من الأول.</p>
+    </div>
+      <div class="feature-shot" style="padding:0;">
+      <img src="Assets/input.png" alt="خانات الإدخال" style="width:100%;height:100%;object-fit:cover;object-position:right center;border-radius:14px;">
+    </div>
+  </div>
+
+  <div class="feature-row">
+    <div class="feature-text">
+      <div class="phase">الخطوة 3</div>
+      <h2>فعّل البرنامج بسيريال شخصي</h2>
+      <p>بعد التجربة المجانية، التفعيل بيتم برقم سيريال مرتبط بجهازك، وترخيص مدى الحياة من غير اشتراك شهري.</p>
+    </div>
+    <div class="feature-shot" style="padding:0;">
+  <img src="Assets/avtivatelog.png" alt="خانات الإدخال" style="width:100%;height:100%;object-fit:cover;border-radius:14px;">
+    </div>
+  </div>
+</div>
+
+<div class="cta-band">
+  <div class="wrap">
+    <h2>جاهز تجرب بنفسك؟</h2>
+    <p>3 أيام تجربة كاملة، بدون دفع.</p>
+    <a href="trial.html" class="btn btn-primary">حمّل التجربة المجانية</a>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap" style="display:flex; justify-content:space-between; width:100%; flex-wrap:wrap; gap:14px;">
+    <p>أداة حساب حجم الصفقة وإدارة المخاطر — Windows 11</p>
+    <a href="index.html" class="logo"><span class="dot"></span>BeansCode</a>
+    
+  </div>
+</footer>
+
+</body>
+</html>
