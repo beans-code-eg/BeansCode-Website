@@ -268,7 +268,7 @@
   <div class="wrap price-wrap">
     <div class="price-card">
       <div class="eyebrow">الترخيص الكامل</div>
-      <div class="counter">أول 50 عميل بس — بعدها السعر بيرجع 15$</div>
+      <div class="counter" id="offer-counter">🔥 عرض الإطلاق: فاضل <span id="counter" style="font-weight:900;color:#F2A93B;font-size:16px">...</span> من 50 عميل — بعدها السعر بيرجع 15$</div>
       <div class="price-row">
         <span class="price-old">15 $</span>
         <span class="price-new">8 $</span>
@@ -304,6 +304,60 @@
     <div class="logo"><span class="dot"></span>BeansCode</div>
   </div>
 </footer>
+
+
+<!-- Firebase Counter Logic -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+  import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCbAiDUKfkwunust0E9neFW_sPtXJ_JJy8",
+    authDomain: "beanscode-358fa.firebaseapp.com",
+    databaseURL: "https://beanscode-358fa-default-rtdb.firebaseio.com",
+    projectId: "beanscode-358fa",
+    storageBucket: "beanscode-358fa.firebasestorage.app",
+    messagingSenderId: "738248116277",
+    appId: "1:738248116277:web:3acee648440f79a63d897c"
+
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+  const stockRef = ref(db, 'stock');
+
+  const counterEl = document.getElementById('counter');
+  const offerEl = document.getElementById('offer-counter');
+  const buyBtn = document.querySelector('#pricing .btn-primary');
+
+  onValue(stockRef, (snapshot) => {
+    let stock = snapshot.val();
+    if(stock === null) stock = 50;
+    stock = Math.max(0, Math.min(50, parseInt(stock)));
+    
+    if(counterEl) counterEl.textContent = stock;
+
+    if(stock <= 10 && stock > 0 && offerEl){
+      offerEl.style.background = 'rgba(229,72,77,.15)';
+      offerEl.style.borderColor = 'rgba(229,72,77,.5)';
+      offerEl.style.color = '#ff8a8a';
+      offerEl.innerHTML = `⚠️ قرب يخلص! فاضل <span id="counter" style="font-weight:900;color:#E5484D;font-size:16px">${stock}</span> من 50 بس`;
+    } else if(stock <= 0){
+      if(offerEl){
+        offerEl.innerHTML = '⛔ عرض الـ 50 انتهى - السعر رجع 15$';
+        offerEl.style.background = 'rgba(138,148,166,.15)';
+      }
+      if(buyBtn){
+        buyBtn.textContent = 'انتهى عرض الـ 8$ - اشتري بـ 15$';
+        buyBtn.href = 'https://t.me/beans_support?text=عايز%20اشتري%20بسعر%2015$';
+        buyBtn.style.background = '#8A94A6';
+      }
+    } else {
+      // reset normal
+      if(offerEl) offerEl.style.background = 'rgba(242,169,59,.1)';
+    }
+  });
+</script>
 
 </body>
 </html>
